@@ -74,8 +74,13 @@ func to_boolean_t(a bool) C.boolean_t {
 }
 
 func to_sendflags_t(flags *SendFlags) (cflags *C.sendflags_t) {
+	verbosity := 1
+	if flags.Verbose {
+		verbosity = 3
+	}
+
 	cflags = C.alloc_sendflags()
-	cflags.verbose = to_boolean_t(flags.Verbose)
+	cflags.verbosity = C.int(verbosity)
 	cflags.replicate = to_boolean_t(flags.Replicate)
 	cflags.doall = to_boolean_t(flags.DoAll)
 	cflags.fromorigin = to_boolean_t(flags.FromOrigin)
